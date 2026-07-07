@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int creditGoal;
+
+struct course{
+    int code; //not official course code
+    char name[50];
+    char semester;
+    int quarter; //1 for first half, 2 for second half, 12 for whole semester
+    int day;
+    int period;
+    int credit;
+    int priority; //restricted, restricted-elective, elective
+    int elgyear; //eligible year
+    struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
+};
+
+struct course Rescourse[100]={};
+struct course Res_elecourse[100]={};
+struct course Elecourse[100]={};
+
+struct course schedule[5][6][2];
+
+int Available(struct course *c, int year, int creditGoal){
+    if(year>=c->elgyear && creditGoal>=c->credit){
+        struct course q1=schedule[c->day][c->period][0];
+        struct course q2=schedule[c->day][c->period][1];
+        if(c->quarter==1){
+            return q1.credit==0;
+        }
+        if(c->quarter==2){
+            return q2.credit==0;
+        }
+
+        if(c->quarter==12){
+            return (q1.credit==0 && q2.credit==0);
+        }
+    }
+    return 0;
+}
+
+void ResFirst(int year, int *creditGoal, char Semester){
+    for(int i=0;i<100;i++){
+        struct course c=Rescourse[i];
+        if(c.credit==0){
+            break;
+        }
+        if(c.semester=Semester && Available(&c,year,*creditGoal)==1){
+            if(c.quarter<3){
+                schedule[c.day-1][c.period-1][c.quarter-1]=c;
+            }
+            else{
+                schedule[c.day-1][c.period-1][0]=c;
+                schedule[c.day-1][c.period-1][1]=c;
+            }
+            *creditGoal-=c.credit;
+        }
+    }
+}
+
+int main(void){
+    for(int year=1;year<5;year++){
+        printf("Your credits goal for Year %d Spring:",year);
+        scanf("%d",&creditGoal);
+        ResFirst(year,creditGoal,'S');
+    }
+}
