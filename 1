@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-int creditGoal;
-
 struct course{
     int code; //not official course code
     char name[50];
@@ -12,56 +10,98 @@ struct course{
     int credit;
     int priority; //restricted, restricted-elective, elective
     int elgyear; //eligible year
+    int done; //0 for not studied, 1 for already passed
     struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
 };
 
-struct course Rescourse[100]={};
-struct course Res_elecourse[100]={};
-struct course Elecourse[100]={};
+int creditGoal;
 
-struct course schedule[5][6][2];
+struct course CourseList[300]={};
+
+struct course *Reqcourse[100]={};
+struct course *Res_elecourse[100]={};
+struct course *Elecourse[100]={};
+
+struct course *Registered[300]={};
+
+struct course *schedule[5][6][2];
+
+
 
 int Available(struct course *c, int year, int creditGoal){
-    if(year>=c->elgyear && creditGoal>=c->credit){
-        struct course q1=schedule[c->day][c->period][0];
-        struct course q2=schedule[c->day][c->period][1];
+    if(year>=c->elgyear && creditGoal>=c->credit && c->done!=1){
+        struct course *q1=schedule[c->day][c->period][0];
+        struct course *q2=schedule[c->day][c->period][1];
         if(c->quarter==1){
-            return q1.credit==0;
+            return q1->credit==0;
         }
         if(c->quarter==2){
-            return q2.credit==0;
+            return q2->credit==0;
         }
-
         if(c->quarter==12){
-            return (q1.credit==0 && q2.credit==0);
+            return (q1->credit==0 && q2->credit==0);
         }
     }
     return 0;
 }
 
-void ResFirst(int year, int *creditGoal, char Semester){
+void ReqFirst(int year, int *creditGoal, char Semester){
+    int ind=0;
     for(int i=0;i<100;i++){
-        struct course c=Rescourse[i];
-        if(c.credit==0){
+        struct course *c=Reqcourse[i];
+        if(c->credit==0){
             break;
         }
-        if(c.semester=Semester && Available(&c,year,*creditGoal)==1){
-            if(c.quarter<3){
-                schedule[c.day-1][c.period-1][c.quarter-1]=c;
+        if(c->semester=Semester && Available(&c,year,*creditGoal)==1){
+            if(c->quarter<3){
+                schedule[c->day-1][c->period-1][c->quarter-1]=c;
             }
             else{
-                schedule[c.day-1][c.period-1][0]=c;
-                schedule[c.day-1][c.period-1][1]=c;
+                schedule[c->day-1][c->period-1][0]=c;
+                schedule[c->day-1][c->period-1][1]=c;
             }
-            *creditGoal-=c.credit;
+            *creditGoal-=c->credit;
+            Registered[ind]=c;
         }
     }
 }
 
+void FailedCourse(){
+    int fail;
+    while(1){
+        printf("Did you fail any course this semester? (0 for no, 1 for yes)\n");
+        scanf("%d",&fail);
+        if(fail==0){
+            return;
+        }
+        if(fail==1){
+            break;
+        }
+        printf("Invalid Input, enter again\n");
+    }
+    int courses[15];
+    printf("Enter the course code you did not pass (add a 0 at the end):\n");
+    for(int i=0;i<15;i++){
+        scanf("%d",&courses[i]);
+        for(int j=0;j<300;j++){
+            if(Registered[j]->code==courses[i]){
+                Registered[j]->done=0;
+            }
+        }
+        if(courses[i]==0){
+            break;
+        }
+    }
+    return;
+}
+
 int main(void){
     for(int year=1;year<5;year++){
-        printf("Your credits goal for Year %d Spring:",year);
+        printf("Your credits goal for Year %d Spring:\n",year);
         scanf("%d",&creditGoal);
-        ResFirst(year,creditGoal,'S');
+        ReqFirst(year,creditGoal,'S');
+        FailedCourse();
+        printf("Your credits goal for Year %d Fall:\n",year);
+        scanf("%d",&creditGoal);
     }
 }
