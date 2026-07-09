@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+#define Reqcredit 52
+#define Res_elecredit 38
+#define Elecredit 36
+
 struct course{
     int code; //not official course code
     char name[50];
@@ -8,7 +12,7 @@ struct course{
     int day;
     int period;
     int credit;
-    int priority; //restricted, restricted-elective, elective
+    int priority; //90<required<=100, 70<restricted elective<=90, 30<=elective<=70
     int elgyear; //eligible year
     int done; //0 for not studied, 1 for already passed
     struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
@@ -25,8 +29,6 @@ struct course *Elecourse[100]={};
 struct course *Registered[300]={};
 
 struct course *schedule[5][6][2];
-
-
 
 int Available(struct course *c, int year, int creditGoal){
     if(year>=c->elgyear && creditGoal>=c->credit && c->done!=1){
@@ -79,6 +81,7 @@ void FailedCourse(){
         }
         printf("Invalid Input, enter again\n");
     }
+
     int courses[15];
     printf("Enter the course code you did not pass (add a 0 at the end):\n");
     for(int i=0;i<15;i++){
@@ -95,6 +98,29 @@ void FailedCourse(){
     return;
 }
 
+int Graduation(){
+    int req=0,res_ele=0,ele=0;
+    for(int i=0;i<300;i++){
+        if(90<Registered[i]->priority<=100){
+            req+=Registered[i]->credit;
+        }
+        else if(70<Registered[i]->priority<=90){
+            res_ele+=Registered[i]->credit;
+        }
+        else if(30<=Registered[i]->priority<=70){
+            ele+=Registered[i]->credit;
+        }
+    }
+    if(req>=Reqcredit && res_ele>=Res_elecredit && ele>=Elecredit){
+        printf("Graduation. Congrats!");
+        return 1;
+    }
+    else{
+        printf("No graduation. Check your registered courses again.");
+        return 0;
+    }
+}
+
 int main(void){
     for(int year=1;year<5;year++){
         printf("Your credits goal for Year %d Spring:\n",year);
@@ -103,5 +129,17 @@ int main(void){
         FailedCourse();
         printf("Your credits goal for Year %d Fall:\n",year);
         scanf("%d",&creditGoal);
+        ReqFirst(year,creditGoal,'F');
+        FailedCourse();
+    }
+    while(Graduation()==0){
+        printf("Your credits goal for Spring:\n");
+        scanf("%d",&creditGoal);
+        ReqFirst(5,creditGoal,'S');
+        FailedCourse();
+        printf("Your credits goal for Fall:\n");
+        scanf("%d",&creditGoal);
+        ReqFirst(5,creditGoal,'F');
+        FailedCourse();
     }
 }
