@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//Requirements for graduation (simplified)
 #define Reqcredit 52
 #define Res_elecredit 38
 #define Elecredit 36
@@ -15,13 +16,13 @@ struct course{
     char name[50];
     char semester;
     int quarter; //1 for first half, 2 for second half, 12 for whole semester
-    int slotcount;
-    struct schedule slot[3];
+    int slotcount; //how many classes there are in a week
+    struct schedule slot[3]; //class time
     int credit;
     int pri; //priority, required=100, 80<restricted elective<=95, 60<=elective<=80
     int elgyear; //eligible year
     int done; //0 for not studied, 1 for already passed
-    int relcode;
+    int relcode; //code of related courses
     struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
     char category[5];
 };
@@ -101,8 +102,8 @@ void Categ(){
     }
 }
 
-char interests[5][5]={};
-int intcount=0;
+char interests[5][5]={}; //user's academic interests
+int intcount=0; //interest count
 
 //Add priority
 void Addpri(struct course *c, int add){
@@ -159,7 +160,7 @@ int Available(struct course *c, int year, int creditGoal){
     return 1;
 }
 
-int totalreg=0;
+int totalreg=0; //number of registered courses
 
 //Register courses
 void Register(struct course *c, int *creditGoal){
@@ -258,6 +259,7 @@ int main(void){
         ReqFirst(year,&creditGoal,'F');
         FailedCourse();
     }
+    //If not graduated
     while(Graduation()==0){
         printf("Your credits goal for Spring:\n");
         scanf("%d",&creditGoal);
