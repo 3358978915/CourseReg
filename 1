@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define Reqcredit 52
 #define Res_elecredit 38
@@ -105,13 +106,13 @@ int intcount=0;
 
 //Add priority
 void Addpri(struct course *c, int add){
-    c->priority+=add;
+    c->pri+=add;
 }
 
 //Check users academic interests, and add priority accoding to interests
 void InterestsA1(){
     printf("Your academic interests? (In desecending sequence)\n");
-    printf("Hum,Soc,Lit,Art,Pol,Econ,Hist,Log,Sci,Phi,Psy\n")
+    printf("Hum,Soc,Lit,Art,Pol,Econ,Hist,Log,Sci,Phi,Psy\n");
     printf("Enter 'END' when you are finished\n");
     char temp[5];
     while(1){
@@ -160,6 +161,14 @@ int Available(struct course *c, int year, int creditGoal){
 
 int totalreg=0;
 
+//Register courses
+void Register(struct course *c, int *creditGoal){
+        *creditGoal-=c->credit;
+        c->done=1;
+        Registered[totalreg]=c;
+        totalreg++;
+}
+
 //Register all required courses available
 void ReqFirst(int year, int *creditGoal, char Semester){
     for(int i=0;i<100;i++){
@@ -182,13 +191,6 @@ void ReqFirst(int year, int *creditGoal, char Semester){
             Register(c,creditGoal);
         }
     }
-}
-
-void Register(struct course *c, int *creditGoal){
-        *creditGoal-=c->credit;
-        c->done=1;
-        Registered[totalreg]=c;
-        totalreg++;
 }
 
 //Receive failed courses, and reset "done" to 0
