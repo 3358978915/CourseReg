@@ -6,6 +6,12 @@
 #define Res_elecredit 38
 #define Elecredit 36
 
+//required=100, 80<restricted elective<=95, 60<=elective<=80
+#define Reqpri 100
+#define Res_elepri 95
+#define Elepri 80
+#define minpri 60
+
 struct schedule{
     int day;
     int period;
@@ -19,12 +25,12 @@ struct course{
     int slotcount; //how many classes there are in a week
     struct schedule slot[3]; //class time
     int credit;
-    int pri; //priority, required=100, 80<restricted elective<=95, 60<=elective<=80
+    int pri;
     int elgyear; //eligible year
     int done; //0 for not studied, 1 for already passed
     int relcode; //code of related courses
     struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
-    char category[5];
+    char categ[5];
 };
 
 const char *category[]={"Hum","Soc","Lit","Art","Pol","Econ","Hist","Log","Sci","Phi","Psy"};
@@ -67,10 +73,9 @@ void ImportCourse(char *fname){
     &CourseList[i].elgyear,
     &CourseList[i].done,
     &CourseList[i].relcode,
-    CourseList[i].category)==17){
+    CourseList[i].categ)==17){
         i++;
     }
-
     fclose(fp);
 }
 
@@ -87,15 +92,15 @@ void Relate(){
 void Categ(){
     int req=0, res=0, ele=0;
     for(int i=0;i<300;i++){
-        if(CourseList[i].pri==100){
+        if(CourseList[i].pri==Reqpri){
             Reqcourse[req]=&CourseList[i];
             req++;
         }
-        else if(CourseList[i].pri<=95 && CourseList[i].pri>80){
+        else if(CourseList[i].pri<Res_elepri && CourseList[i].pri>Elepri){
             Res_elecourse[res]=&CourseList[i];
             res++;
         }
-        else if(CourseList[i].pri<=80 && CourseList[i].pri>=60){
+        else if(CourseList[i].pri<=Elepri && CourseList[i].pri>=minpri){
             Elecourse[ele]=&CourseList[i];
             ele++;
         }
@@ -130,14 +135,14 @@ void InterestsA1(){
             if(Elecourse[j]==NULL){
                 break;
             }
-            if(strcmp(interests[i],Elecourse[j]->category)==0){
+            if(strcmp(interests[i],Elecourse[j]->categ)==0){
                 Addpri(Elecourse[j],add);
             }
         }
     }
 }
 
-//Check conlifcts of schedule
+//Check conlifcts of schedule, credits, eligible year
 int Available(struct course *c, int year, int creditGoal){
     if(year<c->elgyear || creditGoal<c->credit || c->done==1){
         return 0;
@@ -194,6 +199,33 @@ void ReqFirst(int year, int *creditGoal, char Semester){
     }
 }
 
+const char *day[]={"Mon","Tues","Wednes","Thurs","Fri"};
+
+//Print the schedule
+void Printsche(){
+    for(int i=0;i<2;i++){
+        if(i==0){
+            printf("First Quarter:\n");
+        }
+        else{
+            printf("Second Quarter:\n");
+        }
+        for(int j=0;j<5;j++){
+            printf("    %sday:\n",day[j]);
+            for(int k=0;k<6;k++){
+                printf("        Period %d:",k+1);
+                if(schedule[j][k][i]==NULL){
+                    printf("No class\n");
+                }
+                else{
+                    printf("%s\n",schedule[j][k][i]->name);
+                }
+            }
+        }
+        printf("\n");
+    }
+}
+
 //Receive failed courses, and reset "done" to 0
 void FailedCourse(){
     int fail;
@@ -228,13 +260,13 @@ int Graduation(){
         if(Registered[i]==NULL){
             break;
         }
-        if(Registered[i]->pri==100){
+        if(Registered[i]->pri==Reqpri){
             req+=Registered[i]->credit;
         }
-        else if(80<Registered[i]->pri && Registered[i]->pri<=90){
+        else if(Elepri<Registered[i]->pri && Registered[i]->pri<=Res_elepri){
             res+=Registered[i]->credit;
         }
-        else if(Registered[i]->pri<=80 && Registered[i]->pri>=60){
+        else if(Registered[i]->pri<=Elepri && Registered[i]->pri>=minpri){
             ele+=Registered[i]->credit;
         }
     }
@@ -249,25 +281,39 @@ int Graduation(){
 }
 
 int main(void){
+    ImportCourse("CourseListCSCE.txt");
+    Relate();
+    InterestsA1();
+    char semester[2]={'S','F'};
     for(int year=1;year<5;year++){
-        printf("Your credits goal for Year %d Spring:\n",year);
-        scanf("%d",&creditGoal);
-        ReqFirst(year,&creditGoal,'S');
-        FailedCourse();
-        printf("Your credits goal for Year %d Fall:\n",year);
-        scanf("%d",&creditGoal);
-        ReqFirst(year,&creditGoal,'F');
-        FailedCourse();
+        for(int i=0;i<2;i++){
+            printf("Your credits goal for Year %d ",year);
+            if(i==0){
+                printf("Spring:\n");
+            }
+            else{
+                printf("Fall:\n");
+            }
+            scanf("%d",&creditGoal);
+            ReqFirst(year,&creditGoal,semester[i]);
+            Printsche();
+            FailedCourse();
+        }
     }
     //If not graduated
     while(Graduation()==0){
-        printf("Your credits goal for Spring:\n");
-        scanf("%d",&creditGoal);
-        ReqFirst(5,&creditGoal,'S');
-        FailedCourse();
-        printf("Your credits goal for Fall:\n");
-        scanf("%d",&creditGoal);
-        ReqFirst(5,&creditGoal,'F');
-        FailedCourse();
+        for(int i=0;i<2;i++){
+            printf("Your credits goal for ");
+            if(i==0){
+                printf("Spring:\n");
+            }
+            else{
+                printf("Fall:\n");
+            }
+            scanf("%d",&creditGoal);
+            ReqFirst(5,&creditGoal,semester[i]);
+            Printsche();
+            FailedCourse();
+        }
     }
 }
