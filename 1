@@ -364,22 +364,25 @@ void FailedCourse(){
 int Graduation(){
     int req=0,res=0,ele=0;
     for(int i=0;i<100;i++){
-        if(Reqcourse[i]->done==1){
+        if(Reqcourse[i]!=NULL && Reqcourse[i]->done==1){
             req+=Reqcourse[i]->credit;
         }
-        if(Res_elecourse[i]->done==1){
+        if(Res_elecourse[i]!=NULL && Res_elecourse[i]->done==1){
             res+=Res_elecourse[i]->credit;
         }
-        if(Elecourse[i]->done==1){
+        if(Elecourse[i]!=NULL && Elecourse[i]->done==1){
             ele+=Elecourse[i]->credit;
         }
     }
     if(req>=Reqcredit && res>=Res_elecredit && ele>=Elecredit){
-        printf("Graduation. Congrats!");
+        printf("Graduation. Congrats!\n");
         return 1;
     }
     else{
-        printf("No graduation. Check your registered courses again.");
+        printf("No graduation.\n");
+        printf("%d credits needed in Required courses.\n", Reqcredit-req);
+        printf("%d credits needed in Restricted elective courses.\n", Res_elecredit-res);
+        printf("%d credits needed in Elective courses.\n", Elecredit-ele);
         return 0;
     }
 }
