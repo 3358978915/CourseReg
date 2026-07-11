@@ -245,7 +245,7 @@ void FailedCourse(){
     printf("Enter the course code you did not pass (add a 0 at the end):\n");
     for(int i=0;i<15;i++){
         scanf("%d",&courses[i]);
-        CourseList[courses[i]-1].done=0;
+        CourseList[courses[i]+1].done=0;
         if(courses[i]==0){
             break;
         }
