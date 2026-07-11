@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //Requirements for graduation (simplified)
 #define Reqcredit 52
@@ -45,8 +46,6 @@ struct course *Res_elecourse[100]={};
 struct course *Elecourse[100]={};
 
 struct course *Registered[300]={};
-
-struct course *schedule[5][6][2];
 
 //Import CourseList
 void ImportCourse(char *fname){
@@ -142,6 +141,8 @@ void InterestsA1(){
     }
 }
 
+struct course *schedule[5][6][2];
+
 //Check conlifcts of schedule, credits, eligible year
 int Available(struct course *c, int year, int creditGoal){
     if(year<c->elgyear || creditGoal<c->credit || c->done==1){
@@ -174,6 +175,75 @@ void Register(struct course *c, int *creditGoal){
         Registered[totalreg]=c;
         totalreg++;
 }
+
+struct course *elglist[300]={};
+int elgcount;
+
+//Sort priority from high to low
+int cmpPri(const void *a,const void *b){
+    struct course *c1=*(struct course **)a;
+    struct course *c2=*(struct course **)b;
+    return c2->pri-c1->pri;
+}
+
+//Create a courselist of eligible courses
+void elgcourse(int year, char semester){
+    elgcount=0;
+    for(int i=0;i<300;i++){
+        if(CourseList[i].code==0){
+            break;
+        }
+        if(CourseList[i].done==0 && CourseList[i].elgyear<=year && CourseList[i].semester==semester){
+            elglist[elgcount]=&CourseList[i];
+            elgcount++;
+        }
+    }
+    qsort(elglist,elgcount,sizeof(struct course *),cmpPri);
+}
+
+// Calculates and returns the average priority score of the current quarter's schedule
+// quarter_idx: 0 for 1st Quarter, 1 for 2nd Quarter
+double EvaluateSchedule(int quarter_idx) {
+    int total_priority = 0;
+    int unique_course_count = 0;
+    
+    // Temporary array to store courses already processed
+    struct course *counted_courses[100] = {NULL};
+
+    // Traverse Monday to Friday (5 days), 6 periods per day
+    for (int d = 0; d < 5; d++) {
+        for (int p = 0; p < 6; p++) {
+            struct course *c = schedule[d][p][quarter_idx];
+            if (c != NULL) {
+                // Check if this course has already been counted in the current quarter
+                int already_counted = 0;
+                for (int i = 0; i < unique_course_count; i++) {
+                    if (counted_courses[i] == c) {
+                        already_counted = 1;
+                        break;
+                    }
+                }
+                // If it's a new course, add its priority and increment the count
+                if (!already_counted) {
+                    counted_courses[unique_course_count] = c;
+                    total_priority += c->pri;
+                    unique_course_count++;
+                }
+            }
+        }
+    }
+
+    // Return 0.0 if the schedule is empty
+    if (unique_course_count == 0) {
+        return 0.0;
+    }
+
+    // Calculate and return the average score
+    return (double)total_priority / unique_course_count;
+}
+
+//Algorithm for finding the best schedule
+
 
 //Register all required courses available
 void ReqFirst(int year, int *creditGoal, char Semester){
