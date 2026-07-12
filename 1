@@ -200,28 +200,31 @@ int crecount=0; //credit count
 
 //Sum up credits in the temporary schedule
 int Tempcredit(){
-    tempcredit=0;
-    crecount=0;
+    int local_tempcredit = 0;
+    struct course *local_counted[50] = {NULL};
+    int local_count = 0;
+    
     for(int i=0;i<5;i++){
         for(int j=0;j<6;j++){
             for(int k=0;k<2;k++){
-                if(tempsche[i][j][k]!=NULL){
-                    int counted=0;
-                    for(int ind=0;ind<crecount;ind++){
-                        if(tempsche[i][j][k]==crecounted[ind]){
-                            counted=1;
+                if(tempsche[i][j][k] != NULL){
+                    int counted = 0;
+                    for(int ind=0; ind<local_count; ind++){
+                        if(tempsche[i][j][k] == local_counted[ind]){
+                            counted = 1;
                             break;
                         }
                     }
-                    if(counted==0){
-                        tempcredit+=tempsche[i][j][k]->credit;
-                        crecounted[crecount]=tempsche[i][j][k];
-                        crecount++;
+                    if(counted == 0 && local_count < 50){
+                        local_tempcredit += tempsche[i][j][k]->credit;
+                        local_counted[local_count] = tempsche[i][j][k];
+                        local_count++;
                     }
                 }
             }
         }
     }
+    tempcredit = local_tempcredit; // 更新全局变量
     return tempcredit;
 }
 
@@ -527,11 +530,11 @@ int main(void){
             Findsche(0,year,semester[i]);
             Printsche();
             printf("Evaluation of your schedule: %f Percent\n",besteval);
-            for(int i=0;i<5;i++){
+            for(int d=0;d<5;d++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
-                        if(schedule[i][j][k]!=NULL && schedule[i][j][k]->done==0){
-                            Register(schedule[i][j][k]);
+                        if(schedule[d][j][k]!=NULL && schedule[d][j][k]->done==0){
+                            Register(schedule[d][j][k]);
                         }
                     }
                 }
