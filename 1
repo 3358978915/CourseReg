@@ -238,33 +238,20 @@ int Available(struct course *c, int year){
             }
         }
     }
-    else{
-        for(int i=0;i<c->slotcount;i++){
-            struct course *q1=tempsche[c->slot[i].day-1][c->slot[i].period-1][0];
-            struct course *q2=tempsche[c->slot[i].day-1][c->slot[i].period-1][1];
-            if(q1!=NULL && q2!=NULL){
-                return 0;
-            }
-            else if(q1!=NULL && c->quarter!=2){
-                return 0;
-            }
-            else if(q2!=NULL && c->quarter!=1){
-                return 0;
-            }
+    for(int i=0;i<c->slotcount;i++){
+        struct course *q1=tempsche[c->slot[i].day-1][c->slot[i].period-1][0];
+        struct course *q2=tempsche[c->slot[i].day-1][c->slot[i].period-1][1];
+        if(q1!=NULL && q2!=NULL){
+            return 0;
+        }
+        else if(q1!=NULL && c->quarter!=2){
+            return 0;
+        }
+        else if(q2!=NULL && c->quarter!=1){
+            return 0;
         }
     }
     return 1;
-}
-
-void Deletecourse(int i){
-    struct course **p=&tempsche[0][0][0];
-    struct course *targ=p[i];
-    for(int j=0;j<60;j++){
-        if(p[j]==targ){
-            p[j]=NULL;
-        }
-    }
-    p[i]=NULL;
 }
 
 int totalreg=0; //number of registered courses
@@ -312,12 +299,12 @@ void Evalsche(){
     for(int i=0;i<5;i++){
         for(int j=0;j<6;j++){
             for(int k=0;k<2;k++){
-                struct course *c = schedule[i][j][k];
+                struct course *c=tempsche[i][j][k];
                 if(c!=NULL){
                 // Check if this course has already been counted in the current quarter
                     int counted=0;
-                    for(int i=0;i<coursecount;i++){
-                        if(counted_courses[i]==c){
+                    for(int x=0;x<coursecount;x++){
+                        if(counted_courses[x]==c){
                             counted=1;
                             break;
                         }
@@ -332,7 +319,7 @@ void Evalsche(){
             }
         }
     }
-    double eval=0.0;
+    double eval=-100.0;
     if(coursecount>0){
         eval=(totalpri/coursecount)-(creditGoal-Tempcredit())*5;
     }
@@ -357,6 +344,7 @@ int Checkexl(struct course *exclude){
         if(excluded[i]==exclude){
             return 1;
         }
+        i++;
     }
     return 0;
 }
@@ -388,7 +376,6 @@ int GetCurrentCourses(struct course *arr[]){
 
 
 void Findsche(int exc, int year, char Semester){
-    memset(tempsche,0,sizeof(tempsche));
     for(int i=0;i<elgcount;i++){
         struct course *c=elglist[i];
         if(c==NULL || Tempcredit()>=creditGoal){
@@ -420,6 +407,7 @@ void Findsche(int exc, int year, char Semester){
             excount++;
             Findsche(exc+1,year,Semester);
             excount--;
+            excluded[excount]=NULL;
         }
     }
 }
@@ -526,11 +514,11 @@ int main(void){
             scanf("%d",&creditGoal);
             memset(schedule,0,sizeof(schedule));
             memset(tempsche,0,sizeof(tempsche));
-            besteval=0.0;
+            besteval=-1000.0;
             Elgcourse(year,semester[i]);
             Findsche(0,year,semester[i]);
             Printsche();
-            printf("Evaluation of your schedule: %d Percent\n",besteval*100);
+            printf("Evaluation of your schedule: %f Percent\n",besteval);
             for(int i=0;i<5;i++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
@@ -556,11 +544,11 @@ int main(void){
             scanf("%d",&creditGoal);
             memset(schedule,0,sizeof(schedule));
             memset(tempsche,0,sizeof(tempsche));
-            besteval=0.0;
+            besteval=-1000.0;
             Elgcourse(5,semester[i]);
             Findsche(0,5,semester[i]);
             Printsche();
-            printf("Evaluation of your schedule: %d Percent",besteval*100);
+            printf("Evaluation of your schedule: %f Percent",besteval);
             for(int i=0;i<5;i++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
