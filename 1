@@ -18,19 +18,20 @@ struct schedule{
 };
 
 struct course{
-    int code; //not official course code
+    int code; //code=index of CourseList+1; (e.g.: If 0th element of the array, code=1)
     char name[50];
     char semester;
     int quarter; //1 for first half, 2 for second half, 12 for whole semester
     int slotcount; //how many classes there are in a week
-    struct schedule slot[3]; //class time
+    struct schedule slot[3]; //class period
     int credit;
     char type[10]; //required, restricted elective, elective
     int pri;
     int elgyear; //eligible year
     int done; //0 for not studied, 1 for already passed
     int relcode; //code of related courses
-    struct course *related; //related courses, referring to FSE_EB_U_Student Handbook_2024 P24
+    struct course *related; //If a course is passed, user cannot register for related courses
+                            //E.g.: Introduction to C Programming (1)(2)(3)(4), C Programming(1)(2)(3)
     char categ[5];
 };
 
@@ -88,6 +89,7 @@ void Relate(){
     }
 }
 
+//Update done statuses for related courses
 void Reldone(struct course *c, int status){
     if(c==NULL || c->related==NULL){
         return;
@@ -132,8 +134,8 @@ void Addpri(struct course *c, int add){
 const char *A1category[]={"Hum","Soc","Lit","Art","Pol","Econ","Hist","Log","Sci","Phi","Psy",NULL};
 //Humanities, Social, Literature, Arts, Politics, Economics, History, Logic, Sciences, Philosophy, Psychology
 
-const char *Majcategory[]={"MAT","NET","SFT","HDW","PROC","LAB",NULL};
-//Maths, Network, Software, Hardware, Processing, Laboratory
+const char *Majcategory[]={"MAT","NET","SFT","HDW","PROC","LAB","JAP",NULL};
+//Maths, Network, Software, Hardware, Processing, Laboratory, Japanese
 
 //Check users academic interests, and add priority accoding to interests
 void Interests(const char *c[]){
@@ -193,9 +195,10 @@ void Interests(const char *c[]){
 struct course *tempsche[5][6][2];
 struct course *schedule[5][6][2];
 double besteval=0.0;
-struct course *crecounted[50];
-int crecount=0;
+struct course *crecounted[50]; //courses of which credits have been summed
+int crecount=0; //credit count
 
+//Sum up credits in the temporary schedule
 int Tempcredit(){
     tempcredit=0;
     crecount=0;
@@ -264,7 +267,7 @@ void Register(struct course *c){
     totalreg++;
 }
 
-struct course *elglist[300]={};
+struct course *elglist[300]={}; //eligible courses
 int elgcount;
 
 //Sort priority from high to low
@@ -274,7 +277,7 @@ int Cmppri(const void *a,const void *b){
     return c2->pri-c1->pri;
 }
 
-//Create a courselist of eligible courses
+//Create a courselist of eligible courses based on done statuses, eligible year, and current semester
 void Elgcourse(int year, char semester){
     elgcount=0;
     for(int i=0;i<300;i++){
@@ -335,9 +338,10 @@ void Evalsche(){
     }
 }
 
-struct course *excluded[50]={};
+struct course *excluded[50]={}; //Temoporary excluded courses, used in Findsche()
 int excount=0;
 
+//Check excluded or not
 int Checkexl(struct course *exclude){
     int i=0;
     while(excluded[i]!=NULL){
@@ -349,13 +353,14 @@ int Checkexl(struct course *exclude){
     return 0;
 }
 
-int GetCurrentCourses(struct course *arr[]){
+//Get number of courses from temporary schedule (tempsche)
+int Coursecount(struct course *arr[]){
     int count=0;
     for(int i=0;i<5;i++){
         for(int j=0;j<6;j++){
             for(int k=0;k<2;k++){
                 struct course *c = tempsche[i][j][k];
-                if(c != NULL){
+                if(c!=NULL){
                     int found=0;
                     for(int x=0;x<count;x++){
                         if(arr[x]==c){ 
@@ -374,8 +379,11 @@ int GetCurrentCourses(struct course *arr[]){
     return count;
 }
 
-
+//Core function
+//Greedy algorithm, greedy by priority
+//When the schedule is full, exclude some courses (at most 3 courses), again apply greedy algorithm
 void Findsche(int exc, int year, char Semester){
+    memset(tempsche,0,sizeof(tempsche));
     for(int i=0;i<elgcount;i++){
         struct course *c=elglist[i];
         if(c==NULL || Tempcredit()>=creditGoal){
@@ -399,9 +407,9 @@ void Findsche(int exc, int year, char Semester){
         }
     }
     Evalsche();
-    if(exc<2){
+    if(exc<3){
         struct course *current_courses[50];
-        int c_count=GetCurrentCourses(current_courses);
+        int c_count=Coursecount(current_courses);
         for(int i=0;i<c_count;i++){
             excluded[excount]=current_courses[i];
             excount++;
