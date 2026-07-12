@@ -79,9 +79,23 @@ void ImportCourse(char *fname){
 //Search for related courses
 void Relate(){
     for(int i=0;i<300;i++){
+        if(CourseList[i].code==0){
+            break;
+        }
         if(CourseList[i].relcode!=0){
             CourseList[i].related=&CourseList[CourseList[i].relcode-1];
         }
+    }
+}
+
+void Reldone(struct course *c, int status){
+    if(c==NULL || c->related==NULL){
+        return;
+    }
+    struct course *nextc = c->related;
+    while(nextc!=NULL && nextc!=c){
+        nextc->done=status;
+        nextc=nextc->related;
     }
 }
 
@@ -213,6 +227,17 @@ int Available(struct course *c, int year){
     if(year<c->elgyear || (creditGoal-Tempcredit())<c->credit || c->done==1){
         return 0;
     }
+    else if(c->related!=NULL){
+        for(int i=0;i<5;i++){
+            for(int j=0;j<6;j++){
+                for(int k=0;k<2;k++){
+                    if(tempsche[i][j][k]==c->related){
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
     else{
         for(int i=0;i<c->slotcount;i++){
             struct course *q1=tempsche[c->slot[i].day-1][c->slot[i].period-1][0];
@@ -246,9 +271,10 @@ int totalreg=0; //number of registered courses
 
 //Register courses
 void Register(struct course *c){
-        c->done=1;
-        Registered[totalreg]=c;
-        totalreg++;
+    c->done=1;
+    Reldone(c,1);
+    Registered[totalreg]=c;
+    totalreg++;
 }
 
 struct course *elglist[300]={};
@@ -307,9 +333,8 @@ void Evalsche(){
         }
     }
     double eval=0.0;
-    // Return 0.0 if the schedule is empty
     if(coursecount>0){
-        eval=totalpri/coursecount;
+        eval=(totalpri/coursecount)-(creditGoal-Tempcredit())*5;
     }
     if(eval>=besteval){
         besteval=eval;
@@ -450,6 +475,7 @@ void FailedCourse(){
             break;
         }
         CourseList[courses[i]-1].done=0;
+        Reldone(&CourseList[courses[i]-1],0);
     }
     return;
 }
@@ -504,11 +530,12 @@ int main(void){
             Elgcourse(year,semester[i]);
             Findsche(0,year,semester[i]);
             Printsche();
+            printf("Evaluation of your schedule: %d Percent\n",besteval*100);
             for(int i=0;i<5;i++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
                         if(schedule[i][j][k]!=NULL && schedule[i][j][k]->done==0){
-                            Register(schedule[i][j][k]); 
+                            Register(schedule[i][j][k]);
                         }
                     }
                 }
@@ -533,6 +560,7 @@ int main(void){
             Elgcourse(5,semester[i]);
             Findsche(0,5,semester[i]);
             Printsche();
+            printf("Evaluation of your schedule: %d Percent",besteval*100);
             for(int i=0;i<5;i++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
