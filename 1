@@ -349,9 +349,7 @@ void Elgcourse(int year, char semester){
         if(c->code==0){
             break;
         }
-        if(strcmp(c->type,"Req")==0){
-            continue;
-        }
+
         if(year>=c->elgyear && c->done==0 && c->semester==semester){
             elglist[elgcount]=&CourseList[i];
             elgcount++;
@@ -488,9 +486,6 @@ void Findsche(int exc, int year, char Semester){
         struct course *current_courses[50];
         int c_count=Coursecount(current_courses);
         for(int i=0;i<c_count;i++){
-            if(strcmp(current_courses[i]->type,"Req")==0){
-                continue;
-            }
             excluded[excount]=current_courses[i];
             excount++;
             Findsche(exc+1,year,Semester);
