@@ -19,20 +19,20 @@ struct schedule{
 
 struct course{
     int code; //code=index of CourseList+1; (e.g.: If 0th element of the array, code=1)
-    char name[50];
+    char name[90];
     char semester;
     int quarter; //1 for first half, 2 for second half, 12 for whole semester
     int slotcount; //how many classes there are in a week
-    struct schedule slot[3]; //class period
+    struct schedule slot[5]; //class period
     int credit;
-    char type[10]; //required, restricted elective, elective
+    char type[10]; //Required, restricted elective, elective
     int pri;
     int elgyear; //eligible year
     int done; //0 for not studied, 1 for already passed
     int relcode; //code of related courses
     struct course *related; //If a course is passed, user cannot register for related courses
                             //E.g.: Introduction to C Programming (1)(2)(3)(4), C Programming(1)(2)(3)
-    char categ[5];
+    char categ[7];
 };
 
 int creditGoal;
@@ -54,7 +54,7 @@ void ImportCourse(char *fname){
         return;
     }
     int i=0;
-    while(fscanf(fp,"%d,%49[^,],%c,%d,%d,%d,%d,%d,%d,%d,%d,%d,%7[^,],%d,%d,%d,%5[^,\n]",
+    while(fscanf(fp,"%d,%89[^,],%c,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%7[^,],%d,%d,%d,%7[^,\n]",
     &CourseList[i].code,
     CourseList[i].name,
     &CourseList[i].semester,
@@ -66,12 +66,16 @@ void ImportCourse(char *fname){
     &CourseList[i].slot[1].period,
     &CourseList[i].slot[2].day,
     &CourseList[i].slot[2].period,
+    &CourseList[i].slot[3].day,
+    &CourseList[i].slot[3].period,
+    &CourseList[i].slot[4].day,
+    &CourseList[i].slot[4].period,
     &CourseList[i].credit,
     &CourseList[i].type,
     &CourseList[i].elgyear,
     &CourseList[i].done,
     &CourseList[i].relcode,
-    CourseList[i].categ)==17){
+    CourseList[i].categ)==21){
         i++;
     }
     fclose(fp);
@@ -94,10 +98,19 @@ void Reldone(struct course *c, int status){
     if(c==NULL || c->related==NULL){
         return;
     }
-    struct course *nextc = c->related;
-    while(nextc!=NULL && nextc!=c){
-        nextc->done=status;
-        nextc=nextc->related;
+    for(int i=0;i<300;i++){
+        struct course *other=&CourseList[i];
+        if(other->code==0) {
+            break;
+        }
+        if(other==c){
+            continue;
+        }
+        if((c->relcode!=0 && c->relcode==other->code) ||
+            (other->relcode!=0 && other->relcode==c->code) ||
+            (c->relcode!=0 && other->relcode!=0 && c->relcode==other->relcode)){
+            other->done=status;
+        }
     }
 }
 
@@ -131,11 +144,11 @@ void Addpri(struct course *c, int add){
     c->pri+=add;
 }
 
-const char *A1category[]={"Hum","Soc","Lit","Art","Pol","Econ","Hist","Log","Sci","Phi","Psy",NULL};
-//Humanities, Social, Literature, Arts, Politics, Economics, History, Logic, Sciences, Philosophy, Psychology
+const char *A1category[]={"Hum","Soc","Lit","Art","Pol","Econ","Hist","Sci","Phi","Psy",NULL};
+//Humanities, Social, Literature, Arts, Politics, Economics, History, Sciences, Philosophy, Psychology
 
-const char *Majcategory[]={"MAT","NET","SFT","HDW","PROC","LAB","JAP",NULL};
-//Maths, Network, Software, Hardware, Processing, Laboratory, Japanese
+const char *Majcategory[]={"MAT","NET","SFT","HDW","PROC","LAB","JAP","FOR","PHY","BIO",NULL};
+//Maths, Network, Software, Hardware, Processing, Laboratory, Japanese, Foriegn Languages, Physics, Biology
 
 //Check users academic interests, and add priority accoding to interests
 void Interests(const char *c[]){
@@ -224,8 +237,52 @@ int Tempcredit(){
             }
         }
     }
-    tempcredit = local_tempcredit; //Update global variable
+    tempcredit = local_tempcredit;
     return tempcredit;
+}
+
+struct course *Flexcourse[50];
+int flexcount;
+struct course *tempflex[50];
+int tempflexcount;
+
+//Get number of courses from temporary schedule (tempsche)
+int Coursecount(struct course *arr[]){
+    int count=0;
+    for(int i=0;i<5;i++){
+        for(int j=0;j<6;j++){
+            for(int k=0;k<2;k++){
+                struct course *c = tempsche[i][j][k];
+                if(c!=NULL){
+                    int found=0;
+                    for(int x=0;x<count;x++){
+                        if(arr[x]==c){
+                            found=1; 
+                            break; 
+                        }
+                    }
+                    if(!found){
+                        arr[count]=c;
+                        count++;
+                    }
+                }
+            }
+        }
+    }
+    for(int i=0;i<tempflexcount;i++){
+        int found=0;
+        for(int x=0;x<count;x++){
+            if(arr[x]==tempflex[i]){
+                found=1;
+                break;
+            }
+        }
+        if(!found){
+            arr[count]=tempflex[i];
+            count++;
+        }
+    }
+    return count;
 }
 
 //Check conlifcts of schedule, credits, eligible year
@@ -233,17 +290,20 @@ int Available(struct course *c, int year){
     if(year<c->elgyear || (creditGoal-Tempcredit())<c->credit || c->done==1){
         return 0;
     }
-    else if(c->related!=NULL){
-        for(int i=0;i<5;i++){
-            for(int j=0;j<6;j++){
-                for(int k=0;k<2;k++){
-                    if(tempsche[i][j][k]==c->related){
-                        return 0;
-                    }
-                }
+    struct course *current_courses[50];
+    int c_count=Coursecount(current_courses);
+    for(int i=0;i<c_count;i++){
+        struct course *sc=current_courses[i];
+        if (sc==NULL){
+            continue;
+        }
+        
+        if ((c->relcode!=0 && c->relcode ==sc->code) ||
+            (sc->relcode!=0 && sc->relcode==c->code) ||
+            (c->relcode!=0 && sc->relcode!=0 && c->relcode==sc->relcode)){
+                return 0;
             }
         }
-    }
     for(int i=0;i<c->slotcount;i++){
         struct course *q1=tempsche[c->slot[i].day-1][c->slot[i].period-1][0];
         struct course *q2=tempsche[c->slot[i].day-1][c->slot[i].period-1][1];
@@ -284,10 +344,14 @@ int Cmppri(const void *a,const void *b){
 void Elgcourse(int year, char semester){
     elgcount=0;
     for(int i=0;i<300;i++){
-        if(CourseList[i].code==0){
+        struct course *c=&CourseList[i];
+        if(c->code==0){
             break;
         }
-        if(CourseList[i].done==0 && CourseList[i].elgyear<=year && CourseList[i].semester==semester){
+        if(strcmp(c->type,"REQ")==0){
+            continue;
+        }
+        if(year>=c->elgyear && c->done==0 && c->semester==semester){
             elglist[elgcount]=&CourseList[i];
             elgcount++;
         }
@@ -325,9 +389,31 @@ void Evalsche(){
             }
         }
     }
+    for(int i=0;i<tempflexcount;i++){
+        struct course *c=tempflex[i];
+        int counted=0;
+        for(int x=0;x<coursecount;x++){
+            if(counted_courses[x]==c){
+                counted=1;{
+                    break;
+                }
+            }
+        }
+        if(!counted){
+            counted_courses[coursecount]=c;
+            totalpri+=c->pri;
+            coursecount++;
+        }
+    }
     double eval=-100.0;
     if(coursecount>0){
-        eval=(totalpri/coursecount)-(creditGoal-Tempcredit())*5;
+        int temp=Tempcredit();
+        if(temp<=creditGoal){
+            eval=(totalpri/coursecount)-(creditGoal-temp)*5;
+        }
+        else{
+            eval=(totalpri/coursecount)-(temp-creditGoal)*10;
+        }
     }
     if(eval>=besteval){
         besteval=eval;
@@ -337,6 +423,10 @@ void Evalsche(){
                     schedule[i][j][k]=tempsche[i][j][k];
                 }
             }
+        }
+        flexcount=tempflexcount;
+        for(int i=0;i<flexcount;i++){
+            Flexcourse[i]=tempflex[i];
         }
     }
 }
@@ -356,36 +446,12 @@ int Checkexl(struct course *exclude){
     return 0;
 }
 
-//Get number of courses from temporary schedule (tempsche)
-int Coursecount(struct course *arr[]){
-    int count=0;
-    for(int i=0;i<5;i++){
-        for(int j=0;j<6;j++){
-            for(int k=0;k<2;k++){
-                struct course *c = tempsche[i][j][k];
-                if(c!=NULL){
-                    int found=0;
-                    for(int x=0;x<count;x++){
-                        if(arr[x]==c){ 
-                            found=1; 
-                            break; 
-                        }
-                    }
-                    if(!found){
-                        arr[count]=c;
-                        count++;
-                    }
-                }
-            }
-        }
-    }
-    return count;
-}
-
 //Core function
 //Greedy algorithm, greedy by priority
 //When the schedule is full, exclude some courses (at most 3 courses), again apply greedy algorithm
 void Findsche(int exc, int year, char Semester){
+    flexcount=0;
+    tempflexcount=0;
     memset(tempsche,0,sizeof(tempsche));
     for(int i=0;i<elgcount;i++){
         struct course *c=elglist[i];
@@ -396,15 +462,20 @@ void Findsche(int exc, int year, char Semester){
             continue;
         }
         if(c->semester==Semester && Available(c,year)==1){
-            for(int j=0;j<c->slotcount;j++){
-                int day=c->slot[j].day-1;
-                int period=c->slot[j].period-1;
-                if(c->quarter<3){
-                    tempsche[day][period][c->quarter-1]=c;
-                }
-                else{
-                    tempsche[day][period][0]=c;
-                    tempsche[day][period][1]=c;
+            if(c->slotcount==0){
+                tempflex[tempflexcount++]=c;
+            }
+            else{
+                for(int j=0;j<c->slotcount;j++){
+                    int day=c->slot[j].day-1;
+                    int period=c->slot[j].period-1;
+                    if(c->quarter<3){
+                        tempsche[day][period][c->quarter-1]=c;
+                    }
+                    else{
+                        tempsche[day][period][0]=c;
+                        tempsche[day][period][1]=c;
+                    }
                 }
             }
         }
@@ -414,6 +485,9 @@ void Findsche(int exc, int year, char Semester){
         struct course *current_courses[50];
         int c_count=Coursecount(current_courses);
         for(int i=0;i<c_count;i++){
+            if(strcmp(current_courses[i]->type,"REQ")==0){
+                continue;
+            }
             excluded[excount]=current_courses[i];
             excount++;
             Findsche(exc+1,year,Semester);
@@ -446,7 +520,15 @@ void Printsche(){
                 }
             }
         }
-        // Print the satisfaction score for the current quarter
+    }
+    printf("\nFlexible / On-demand courses:\n");
+    if(flexcount==0){
+        printf("    None\n");
+    }
+    else{
+        for(int i=0;i<flexcount;i++){
+            printf("    %s (Code:%d)\n",Flexcourse[i]->name,Flexcourse[i]->code);
+            }
     }
     memset(excluded,0,sizeof(excluded));
 }
@@ -493,7 +575,7 @@ int Graduation(){
             ele+=Elecourse[i]->credit;
         }
     }
-    if(req>=Reqcredit && res>=Res_elecredit && ele>=Elecredit){
+    if((req)>=Reqcredit && res>=Res_elecredit && ele>=Elecredit){
         printf("Graduation. Congrats!\n");
         return 1;
     }
@@ -507,7 +589,7 @@ int Graduation(){
 }
 
 int main(void){
-    ImportCourse("CourseListCSCE.txt");
+    ImportCourse("CourseList.txt");
     Categ();
     Relate();
     Interests(A1category);
@@ -528,6 +610,11 @@ int main(void){
             besteval=-1000.0;
             Elgcourse(year,semester[i]);
             Findsche(0,year,semester[i]);
+            for(int i=0;i<flexcount;i++){
+                if(Flexcourse[i]->done==0){
+                    Register(Flexcourse[i]);
+                }
+            }
             Printsche();
             printf("Evaluation of your schedule: %f Percent\n",besteval);
             for(int d=0;d<5;d++){
@@ -560,11 +647,11 @@ int main(void){
             Findsche(0,5,semester[i]);
             Printsche();
             printf("Evaluation of your schedule: %f Percent",besteval);
-            for(int i=0;i<5;i++){
+            for(int d=0;d<5;d++){
                 for(int j=0;j<6;j++){
                     for(int k=0;k<2;k++){
-                        if(schedule[i][j][k]!=NULL && schedule[i][j][k]->done==0){
-                            Register(schedule[i][j][k]); 
+                        if(schedule[d][j][k]!=NULL && schedule[d][j][k]->done==0){
+                            Register(schedule[d][j][k]); 
                         }
                     }
                 }
