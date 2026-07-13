@@ -35,7 +35,7 @@
 35,Japanese Gardens (1),F,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,1,Art
 36,History of East Asia,S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,0,Hist
 37,Japanese Art and Architecture (2),S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,66,Art
-38,Philosophy of Science,S,1,2,2,2,4,2,0,0,0,0,0,0,2,Ele,1,0,0,Phi
+38,Philosophy of Science,S,1,2,2,2,4,2,0,0,0,0,0,0,2,Ele,1,0,0,Sci
 39,Classical Social Theory,S,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Soc
 40,General Psychology,S,12,1,3,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Psy
 41,History of Modern Japan (1),F,1,2,4,1,4,2,0,0,0,0,0,0,2,Ele,1,0,68,Hist
@@ -167,3 +167,14 @@
 167,Japanese,F,12,1,5,3,0,0,0,0,0,0,0,0,1,Ele,1,0,0,JAP
 168,Japanese,F,12,1,5,4,0,0,0,0,0,0,0,0,1,Ele,1,0,0,JAP
 169,Japanese,F,12,1,5,5,0,0,0,0,0,0,0,0,1,Ele,1,0,0,JAP
+170,Modern and Contemporary Philosophy (2),F,12,1,3,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Phi
+171,Ancient and Medieval Philosophy (2),S,12,1,3,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Phi
+172,Ethics (2),S,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Hum
+173,Introduction to Macroeconomics,F,2,2,1,3,5,2,0,0,0,0,0,0,2,Ele,1,0,0,Econ
+174,Good and Evil: Great Books of the Humanities (1),F,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,1,0,175,Hum
+175,Good and Evil: Great Books of the Humanities (2),F,12,1,4,2,0,0,0,0,0,0,0,0,2,Ele,1,0,176,Hum
+176,Good and Evil: Great Books of the Humanities (3),S,12,1,4,2,0,0,0,0,0,0,0,0,2,Ele,1,0,174,Hum
+177,Art of the West (1),F,1,2,5,3,5,4,0,0,0,0,0,0,2,Ele,1,0,178,Art
+178,Art of the West (2),S,1,2,5,3,5,4,0,0,0,0,0,0,2,Ele,1,0,177,Art
+179,Art of the West (1),F,2,2,5,3,5,4,0,0,0,0,0,0,2,Ele,1,0,180,Art
+180,Art of the West (2),S,2,2,5,3,5,4,0,0,0,0,0,0,2,Ele,1,0,179,Art
