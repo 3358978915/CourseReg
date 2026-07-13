@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 //Requirements for graduation (simplified)
 #define Reqcredit 52
@@ -613,6 +614,7 @@ int main(void){
             flexcount=0;
             tempflexcount=0;
             besteval=-1000.0;
+            clock_t start=clock();
             Elgcourse(year,semester[i]);
             Findsche(0,year,semester[i]);
             for(int i=0;i<flexcount;i++){
@@ -631,6 +633,8 @@ int main(void){
                     }
                 }
             }
+            clock_t end=clock();
+            printf("Scheduling time: %.6f seconds\n",(double)(end-start)/CLOCKS_PER_SEC);
             FailedCourse();
         }
     }
@@ -647,7 +651,10 @@ int main(void){
             scanf("%d",&creditGoal);
             memset(schedule,0,sizeof(schedule));
             memset(tempsche,0,sizeof(tempsche));
+            flexcount=0;
+            tempflexcount=0;
             besteval=-1000.0;
+            clock_t start=clock();
             Elgcourse(5,semester[i]);
             Findsche(0,5,semester[i]);
             Printsche();
@@ -661,6 +668,8 @@ int main(void){
                     }
                 }
             }
+            clock_t end=clock();
+            printf("Scheduling time: %.6f seconds\n",(double)(end-start)/CLOCKS_PER_SEC);
             FailedCourse();
         }
     }
