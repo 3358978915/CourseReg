@@ -84,7 +84,7 @@
 84,General Physics B: Waves; Optics; and Thermodynamics,F,2,2,1,5,4,3,0,0,0,0,0,0,2,Ele,1,0,0,PHY
 85,General Physics C: Electromagnetism (2),S,1,3,2,1,4,5,5,4,0,0,0,0,3,Req,2,0,86,PHY
 86,General Physics C: Electromagnetism (1),S,1,3,1,1,3,4,4,2,0,0,0,0,3,Req,2,0,85,PHY
-87,Introduction to Bioscience,S,1,2,1,2,5,1,0,0,0,0,0,0,3,Req,1,0,0,BIO
+87,Introduction to Bioscience,S,1,2,1,2,5,1,0,0,0,0,0,0,3,Ele,1,0,0,BIO
 88,Basic Physics Laboratory,F,12,4,5,2,5,3,5,4,5,5,0,0,2,Req,1,0,0,LAB
 89,Introduction to C Programming (1),S,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,1,0,90,SFT
 90,Introduction to C Programming (2),S,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,1,0,91,SFT
