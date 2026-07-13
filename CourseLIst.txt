@@ -36,25 +36,25 @@
 36,History of East Asia,S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,0,Hist
 37,Japanese Art and Architecture (2),S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,66,Art
 38,Philosophy of Science,S,1,2,2,2,4,2,0,0,0,0,0,0,2,Ele,1,0,0,Phi
-39,Classical Social Theory,S,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+39,Classical Social Theory,S,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Soc
 40,General Psychology,S,12,1,3,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Psy
 41,History of Modern Japan (1),F,1,2,4,1,4,2,0,0,0,0,0,0,2,Ele,1,0,68,Hist
-42,Comparative Politics,S,12,1,2,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Pol
+42,Comparative Politics,S,12,1,2,4,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Pol
 43,Political Theory (1),F,12,1,4,4,0,0,0,0,0,0,0,0,2,Ele,1,0,65,Pol
 44,World Literature,S,12,1,5,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Lit
 45,Calculus A (1),F,1,2,1,2,3,5,0,0,0,0,0,0,2,Req,1,0,50,MAT
-46,Topics in the Humanities,S,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Hum
+46,Topics in the Humanities,S,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Hum
 47,Individual and Society: Great Books of the Social Sciences (2),F,12,1,3,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
-48,Contemporary Social Theory,F,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+48,Contemporary Social Theory,F,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Soc
 49,Individual and Society: Great Books of the Social Sciences (1),F,12,1,2,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
 50,Calculus A (2),F,1,2,2,1,3,3,0,0,0,0,0,0,2,Req,1,0,45,MAT
-51,Topics in History and Philosophy of Science,S,1,2,2,1,4,1,0,0,0,0,0,0,2,Ele,1,0,0,Sci
+51,Topics in History and Philosophy of Science,S,1,2,2,1,4,1,0,0,0,0,0,0,2,Ele,2,0,0,Sci
 52,Introduction to Microeconomics,F,1,1,2,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Econ
 53,History of Science,F,12,1,3,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Sci
-54,Group Psychology,F,12,1,2,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Psy
+54,Group Psychology,F,12,1,2,2,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Psy
 55,History of Modern China,S,12,1,4,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Hist
 56,Calculus B (1),F,2,2,1,2,3,5,0,0,0,0,0,0,2,Req,1,0,69,MAT
-57,Topics in the Social Sciences,F,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+57,Topics in the Social Sciences,F,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,2,0,0,Soc
 58,Chinese 1,S,12,1,2,2,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
 59,Chinese 2,F,12,1,2,2,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
 59,German 2,S,12,1,4,4,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
