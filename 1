@@ -42,7 +42,7 @@ struct course CourseList[300]={};
 
 struct course *Reqcourse[100]={};
 struct course *Res_elecourse[100]={};
-struct course *Elecourse[100]={};
+struct course *Elecourse[200]={};
 
 struct course *Registered[300]={};
 
@@ -450,8 +450,10 @@ int Checkexl(struct course *exclude){
 //Greedy algorithm, greedy by priority
 //When the schedule is full, exclude some courses (at most 3 courses), again apply greedy algorithm
 void Findsche(int exc, int year, char Semester){
-    flexcount=0;
-    tempflexcount=0;
+    int backup=tempflexcount;
+    if(exc==0) {
+        tempflexcount=0;
+    }
     memset(tempsche,0,sizeof(tempsche));
     for(int i=0;i<elgcount;i++){
         struct course *c=elglist[i];
@@ -495,6 +497,7 @@ void Findsche(int exc, int year, char Semester){
             excluded[excount]=NULL;
         }
     }
+    tempflexcount=backup;
 }
 
 const char *day[]={"Mon","Tues","Wednes","Thurs","Fri"};
@@ -564,7 +567,7 @@ void FailedCourse(){
 //Check graduation or not based on credits requirements
 int Graduation(){
     int req=0,res=0,ele=0;
-    for(int i=0;i<100;i++){
+    for(int i=0;i<200;i++){
         if(Reqcourse[i]!=NULL && Reqcourse[i]->done==1){
             req+=Reqcourse[i]->credit;
         }
@@ -607,6 +610,8 @@ int main(void){
             scanf("%d",&creditGoal);
             memset(schedule,0,sizeof(schedule));
             memset(tempsche,0,sizeof(tempsche));
+            flexcount=0;
+            tempflexcount=0;
             besteval=-1000.0;
             Elgcourse(year,semester[i]);
             Findsche(0,year,semester[i]);
