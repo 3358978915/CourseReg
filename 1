@@ -349,7 +349,7 @@ void Elgcourse(int year, char semester){
         if(c->code==0){
             break;
         }
-        if(strcmp(c->type,"REQ")==0){
+        if(strcmp(c->type,"Req")==0){
             continue;
         }
         if(year>=c->elgyear && c->done==0 && c->semester==semester){
@@ -488,7 +488,7 @@ void Findsche(int exc, int year, char Semester){
         struct course *current_courses[50];
         int c_count=Coursecount(current_courses);
         for(int i=0;i<c_count;i++){
-            if(strcmp(current_courses[i]->type,"REQ")==0){
+            if(strcmp(current_courses[i]->type,"Req")==0){
                 continue;
             }
             excluded[excount]=current_courses[i];
@@ -567,27 +567,39 @@ void FailedCourse(){
 
 //Check graduation or not based on credits requirements
 int Graduation(){
-    int req=0,res=0,ele=0;
-    for(int i=0;i<200;i++){
-        if(Reqcourse[i]!=NULL && Reqcourse[i]->done==1){
-            req+=Reqcourse[i]->credit;
-        }
-        if(Res_elecourse[i]!=NULL && Res_elecourse[i]->done==1){
-            res+=Res_elecourse[i]->credit;
-        }
-        if(Elecourse[i]!=NULL && Elecourse[i]->done==1){
-            ele+=Elecourse[i]->credit;
+    int req=0, res=0, ele=0;
+    
+    // 1. reqcourse credits (atmost 100)
+    for(int i = 0; i < 100; i++){
+        if(Reqcourse[i] != NULL && Reqcourse[i]->done == 1){
+            req += Reqcourse[i]->credit;
         }
     }
-    if((req)>=Reqcredit && res>=Res_elecredit && ele>=Elecredit){
+    
+    // 2. res_elecourse credits (at most 100)
+    for(int i = 0; i < 100; i++){
+        if(Res_elecourse[i] != NULL && Res_elecourse[i]->done == 1){
+            res += Res_elecourse[i]->credit;
+        }
+    }
+    
+    // 3. elecourse credits (at most 200)
+    for(int i = 0; i < 200; i++){
+        if(Elecourse[i] != NULL && Elecourse[i]->done == 1){
+            ele += Elecourse[i]->credit;
+        }
+    }
+
+    if(req >= Reqcredit && res >= Res_elecredit && ele >= Elecredit){
         printf("Graduation. Congrats!\n");
         return 1;
     }
     else{
         printf("No graduation.\n");
-        printf("%d credits needed in Required courses.\n", Reqcredit-req);
-        printf("%d credits needed in Restricted elective courses.\n", Res_elecredit-res);
-        printf("%d credits needed in Elective courses.\n", Elecredit-ele);
+        // If credits are enough
+        printf("%d credits needed in Required courses.\n", (Reqcredit - req > 0) ? (Reqcredit - req) : 0);
+        printf("%d credits needed in Restricted elective courses.\n", (Res_elecredit - res > 0) ? (Res_elecredit - res) : 0);
+        printf("%d credits needed in Elective courses.\n", (Elecredit - ele > 0) ? (Elecredit - ele) : 0);
         return 0;
     }
 }
