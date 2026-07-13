@@ -1,0 +1,104 @@
+1,Japanese Gardens (2),S,1,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,35,Art
+2,Topics from Computer Science and Communications Research,S,1,2,1,2,3,4,0,0,0,0,0,0,2,Req,1,0,0,PROC
+3,Wireless Communication,S,12,1,1,3,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,NET
+4,Information Network Systems B,S,12,1,1,4,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,NET
+5,Operating Systems,S,12,1,1,5,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,PROC
+6,Computer Science and Communications Engineering Laboratory B,S,12,2,2,1,2,2,0,0,0,0,0,0,2,Res_ele,3,0,0,LAB
+7,Fundamentals of Programming,S,1,2,2,2,5,1,0,0,0,0,0,0,2,Req,1,0,0,SFT
+8,Electronic Circuits A,S,1,1,2,3,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,HDW
+9,Foundations for Information Access Evaluation,S,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,4,0,0,PROC
+10,Software Quality Assurance,S,12,1,2,4,0,0,0,0,0,0,0,0,2,Ele,4,0,0,SFT
+11,Computer Vision and Pattern Analysis,S,12,1,2,4,0,0,0,0,0,0,0,0,2,Ele,4,0,0,PROC
+12,Algorithms and Data Structures,S,12,1,2,5,0,0,0,0,0,0,0,0,2,Req,2,0,0,SFT
+13,Signal Processing,F,12,1,1,6,0,0,0,0,0,0,0,0,2,Res_ele,2,0,0,PROC
+14,Electronic Circuits B,S,2,1,2,3,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,HDW
+15,Introduction to Computers and Networks,S,12,1,3,3,0,0,0,0,0,0,0,0,2,Res_ele,1,0,0,NET
+16,Image Processing,S,12,1,3,3,0,0,0,0,0,0,0,0,2,Ele,4,0,0,PROC
+17,Info-Telecommunication and the Standardization,S,12,1,3,5,0,0,0,0,0,0,0,0,2,Ele,3,0,0,NET
+18,Information Theory,S,12,1,3,5,0,0,0,0,0,0,0,0,2,Res_ele,2,0,0,NET
+19,Data Mining,S,12,1,4,1,0,0,0,0,0,0,0,0,2,Ele,3,0,0,PROC
+20,Computer Language Processors,S,12,1,4,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+21,Advanced Processor Architecture Technology,S,12,1,5,3,0,0,0,0,0,0,0,0,2,Ele,4,0,0,HDW
+22,Foundations of Statistics A,S,12,1,5,5,0,0,0,0,0,0,0,0,2,Req,2,0,0,MAT
+23,Databases,F,12,1,1,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+24,Discrete Mathematics,F,12,1,1,3,0,0,0,0,0,0,0,0,2,Res_ele,2,0,0,MAT
+25,Software Engineering,F,12,1,1,3,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+26,Computer Architecture,F,12,1,1,4,0,0,0,0,0,0,0,0,2,Req,2,0,0,HDW
+27,Logic Circuits,F,12,1,2,5,0,0,0,0,0,0,0,0,2,Req,2,0,0,HDW
+28,Programming Languages,F,12,1,2,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+29,Information Mathematics,F,12,1,2,4,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,MAT
+30,Multimedia Systems A,F,12,1,2,5,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+31,Teletraffic Theory,F,12,1,3,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,NET
+32,Artificial Intelligence,F,12,1,4,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,PROC
+33,Information Network Systems A,F,12,1,4,5,0,0,0,0,0,0,0,0,2,Req,3,0,0,NET
+34,Multimedia Systems B,F,12,1,5,3,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,SFT
+35,Japanese Gardens (1),F,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,1,Art
+36,History of East Asia,S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,0,Hist
+37,Japanese Art and Architecture (2),S,2,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,66,Art
+38,Philosophy of Science,S,1,2,2,2,4,2,0,0,0,0,0,0,2,Ele,1,0,0,Phi
+39,Classical Social Theory,S,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+40,General Psychology,S,12,1,3,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Psy
+41,History of Modern Japan (1),F,1,2,4,1,4,2,0,0,0,0,0,0,2,Ele,1,0,68,Hist
+42,Comparative Politics,S,12,1,2,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Pol
+43,Political Theory (1),F,12,1,4,4,0,0,0,0,0,0,0,0,2,Ele,1,0,65,Pol
+44,World Literature,S,12,1,5,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Lit
+45,Calculus A (1),F,1,2,1,2,3,5,0,0,0,0,0,0,2,Req,1,0,50,MAT
+46,Topics in the Humanities,S,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Hum
+47,Individual and Society: Great Books of the Social Sciences (2),F,12,1,3,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+48,Contemporary Social Theory,F,12,1,2,3,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+49,Individual and Society: Great Books of the Social Sciences (1),F,12,1,2,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+50,Calculus A (2),F,1,2,2,1,3,3,0,0,0,0,0,0,2,Req,1,0,45,MAT
+51,Topics in History and Philosophy of Science,S,1,2,2,1,4,1,0,0,0,0,0,0,2,Ele,1,0,0,Sci
+52,Introduction to Microeconomics,F,1,1,2,4,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Econ
+53,History of Science,F,12,1,3,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Sci
+54,Group Psychology,F,12,1,2,2,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Psy
+55,History of Modern China,S,12,1,4,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Hist
+56,Calculus B (1),F,2,2,1,2,3,5,0,0,0,0,0,0,2,Req,1,0,69,MAT
+57,Topics in the Social Sciences,F,12,1,2,5,0,0,0,0,0,0,0,0,2,Ele,1,0,0,Soc
+58,Chinese 1,S,12,1,2,2,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
+59,Chinese 2,F,12,1,2,2,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
+59,German 2,S,12,1,4,4,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
+60,Academic Study Skills A,F,1,1,2,1,0,0,0,0,0,0,0,0,1,Req,1,0,0,FOR
+61,Academic Study Skills B,F,2,1,2,1,0,0,0,0,0,0,0,0,1,Req,1,0,0,FOR
+62,Chinese,F,12,1,2,2,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
+63,German 1,F,12,1,4,4,0,0,0,0,0,0,0,0,1,Ele,1,0,0,FOR
+65,Political Theory (2),S,12,1,4,4,0,0,0,0,0,0,0,0,2,Ele,1,0,43,Pol
+66,Japanese Art and Architecture (1),F,1,2,1,3,1,4,0,0,0,0,0,0,2,Ele,1,0,37,Art
+67,History of Modern Japan (3),S,1,2,5,1,5,2,0,0,0,0,0,0,2,Ele,1,0,41,Hist
+68,History of Modern Japan (2),S,1,2,3,1,3,2,0,0,0,0,0,0,2,Ele,1,0,67,Hist
+69,Calculus B (2),F,2,2,2,1,3,3,0,0,0,0,0,0,2,Req,1,0,56,MAT
+70,Calculus C (1),S,1,2,3,3,5,1,0,0,0,0,0,0,2,Req,1,0,71,MAT
+71,Calculus C (2),S,1,2,3,2,4,1,0,0,0,0,0,0,2,Req,1,0,70,MAT
+72,Linear Algebra A (1),F,2,2,2,5,4,1,0,0,0,0,0,0,2,Req,1,0,73,MAT
+73,Linear Algebra A (2),F,2,2,2,4,4,5,0,0,0,0,0,0,2,Req,1,0,72,MAT
+74,Linear Algebra B (1),S,1,2,1,5,2,3,0,0,0,0,0,0,2,Req,1,0,75,MAT
+75,Linear Algebra B (2),S,1,2,3,1,4,3,0,0,0,0,0,0,2,Req,1,0,74,MAT
+76,Ordinary Differential Equations (1),S,2,2,3,1,4,2,0,0,0,0,0,0,2,Ele,1,0,0,MAT
+77,Vector Calculus,S,2,2,3,3,5,1,0,0,0,0,0,0,2,Ele,1,0,0,MAT
+78,Complex Analysis,F,1,2,2,4,5,1,0,0,0,0,0,0,2,Ele,2,0,0,MAT
+79,Fourier Analysis,F,2,2,2,4,5,1,0,0,0,0,0,0,2,Ele,2,0,0,MAT
+80,Introduction to Probability and Statistics (1),S,2,2,1,5,3,4,0,0,0,0,0,0,2,Req,1,0,81,MAT
+81,Introduction to Probability and Statistics (2),F,1,2,1,5,4,3,0,0,0,0,0,0,2,Req,1,0,80,MAT
+82,General Physics A: Mechanics (1),F,1,3,2,4,4,5,5,1,0,0,0,0,3,Req,1,0,83,PHY
+83,General Physics A: Mechanics (2),F,1,3,2,5,3,4,1,1,0,0,0,0,3,Req,1,0,82,PHY
+84,General Physics B: Waves; Optics; and Thermodynamics,F,2,2,1,5,4,3,0,0,0,0,0,0,2,Ele,1,0,0,PHY
+85,General Physics C: Electromagnetism (2),S,1,3,2,1,4,5,5,4,0,0,0,0,3,Req,2,0,86,PHY
+86,General Physics C: Electromagnetism (1),S,1,3,1,1,3,4,4,2,0,0,0,0,3,Req,2,0,85,PHY
+87,Introduction to Bioscience,S,1,2,1,2,5,1,0,0,0,0,0,0,3,Req,1,0,0,BIO
+88,Basic Physics Laboratory,F,12,4,5,2,5,3,5,4,5,5,0,0,2,Req,1,0,0,LAB
+89,Introduction to C Programming (1),S,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,1,0,90,SFT
+90,Introduction to C Programming (2),S,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,1,0,91,SFT
+91,Introduction to C Programming (3),F,12,1,1,3,0,0,0,0,0,0,0,0,2,Ele,1,0,92,SFT
+92,Introduction to C Programming (4),F,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,1,0,89,SFT
+93,Introduction to Java Programming,S,12,1,3,6,0,0,0,0,0,0,0,0,2,Ele,1,0,0,SFT
+94,Introduction to Fortran Programming,S,12,0,0,0,0,0,0,0,0,0,0,0,2,Ele,1,0,0,SFT
+95,C Programming (1),F,12,1,1,4,0,0,0,0,0,0,0,0,2,Req,2,0,96,SFT
+96,C Programming (2),S,12,1,1,3,0,0,0,0,0,0,0,0,2,Req,1,0,97,SFT
+97,C Programming (3),S,12,1,5,3,0,0,0,0,0,0,0,0,2,Req,1,0,95,SFT
+98,Java Programming,F,12,1,5,2,0,0,0,0,0,0,0,0,2,Req,2,0,0,SFT
+99,Fortran Programming,F,12,0,0,0,0,0,0,0,0,0,0,0,2,Ele,2,0,0,SFT
+100,Graduation Thesis A,F,12,0,0,0,0,0,0,0,0,0,0,0,4,Req,2,0,0,LAB
+101,Graduation Thesis B,S,12,0,0,0,0,0,0,0,0,0,0,0,4,Req,2,0,0,LAB
+102,Project Research Spring,S,12,0,0,0,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,LAB
+103,Project Research Fall,F,12,0,0,0,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,LAB
+104,Advanced Computer Architecture,S,12,1,1,4,0,0,0,0,0,0,0,0,2,Ele,4,0,0,HDW
