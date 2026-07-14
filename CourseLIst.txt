@@ -111,8 +111,8 @@
 111,Distributed Embedded and Real-Time Processing,F,12,1,5,2,0,0,0,0,0,0,0,0,2,Ele,4,0,0,PROC
 112,Electromagnetism B,F,2,1,3,5,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,PHY
 113,Electromagnetism A,F,1,1,3,5,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,PHY
-114,Circuit Theory A,F,1,1,1,5,0,0,0,0,0,0,0,0,1,Res_ele,1,0,0,HDW
-115,Circuit Theory B,F,2,1,1,5,0,0,0,0,0,0,0,0,1,Res_ele,1,0,0,HDW
+114,Circuit Theory A,F,1,1,1,5,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,HDW
+115,Circuit Theory B,F,2,1,1,5,0,0,0,0,0,0,0,0,1,Res_ele,2,0,0,HDW
 116,Bioinformatics with ICT,S,12,1,1,2,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,PROC
 117,Digital Signal Processing,S,12,1,2,5,0,0,0,0,0,0,0,0,2,Res_ele,3,0,0,PROC
 118,Foundations of Statistics B,F,12,1,5,5,0,0,0,0,0,0,0,0,2,Req,3,0,0,MAT
